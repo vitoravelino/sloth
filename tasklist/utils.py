@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import request, make_response
 from werkzeug.contrib.cache import SimpleCache
 
