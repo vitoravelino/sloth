@@ -27,7 +27,7 @@ def render_json(output, callback=''):
 	return response
 
 def generate_uuid(string):
-	return str(uuid.uuid3(uuid.NAMESPACE_DNS, string + random_string()))
+	return str(uuid.uuid3(uuid.NAMESPACE_DNS, random_string()))
 
-def random_string(size=12):
-	return ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(size))
+def random_string(size=24):
+	return ''.join(random.choice(string.uppercase + string.digits) for x in range(size))
