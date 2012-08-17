@@ -65,7 +65,6 @@ define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/ta
     },
 
     notFound: function() {
-      console.log('not found');
       if (this.currentView) this.currentView.remove();
       
       this.currentView = new TaskListNotFoundView({taskListId: this.taskListId});
