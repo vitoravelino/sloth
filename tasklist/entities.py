@@ -25,7 +25,7 @@ class Task(Base):
 	id = Column(Integer, primary_key=True)
 	title = Column(String)
 	completed = Column(Boolean)
-	tasklist_id = Column(Integer, ForeignKey('tasklists.id'))
+	tasklist_id = Column(String, ForeignKey('tasklists.id'))
 
 	def __init__(self, tasklist_id, title):
 		 self.title = title
