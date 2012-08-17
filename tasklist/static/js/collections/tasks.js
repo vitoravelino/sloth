@@ -1,4 +1,4 @@
-define(function(require) {
+define(['models/task'], function() {
   'use strict';
 
   // dependencies

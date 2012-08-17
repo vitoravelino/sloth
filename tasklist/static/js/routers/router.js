@@ -1,4 +1,4 @@
-define(function(require) {
+define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/tasklist-access', 'views/tasklist-new', 'views/tasklist-notfound'], function() {
   'use strict';
 
   // dependencies

@@ -1,4 +1,4 @@
-define(function(require) {
+define(['mediator', 'notifier', 'models/tasklist'], function() {
   'use strict';
 
   // dependencies

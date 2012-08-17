@@ -26,10 +26,8 @@ require.config({
 });
 
 // bootstraping the app
-define(function(require) {
-  require('backbone'); // the whole app uses it
-
-  var Router = require('routers/router'),
+define(['backbone', 'routers/router', 'auth'], function() {
+  var Router       = require('routers/router'),
       AuthMediator = require('auth');
 
   new Router();

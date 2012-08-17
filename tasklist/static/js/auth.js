@@ -1,4 +1,4 @@
-define(function(require) {
+define(['mediator'], function() {
   'use strict';
 
   // dependencies
