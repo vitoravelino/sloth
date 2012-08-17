@@ -7,9 +7,17 @@ I've also used Flask to provide an API to manage data.
 
 More details soon...
 
-### TODO
+### Improvement & issues
 
 See it at [here](http://github.com/vitoravelino/sloth/issues)
+
+### How to run the app locally
+
+Download the code and type:
+
+```shell
+python runserver.py
+```
 
 ### Demo
 
