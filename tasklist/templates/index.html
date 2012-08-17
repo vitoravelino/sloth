@@ -27,7 +27,9 @@
         <h2>Remember: Do not procrastinate!</h2>
       </header>
 
-      <div id="content"></div> <!-- #content -->
+      <div id="content" class="content">
+        <img class="preloader" src="{{ url_for('static', filename='img/preloader.gif') }}" alt="Loading..." title="Loading..." />
+      </div> <!-- #content -->
 
       <div id="note" class="note">
         <p class="message"></p>

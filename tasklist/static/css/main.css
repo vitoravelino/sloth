@@ -124,6 +124,11 @@ input:-moz-placeholder {color:#999;}
 
 .input-error {border-color: #953B39;}
 .checkbox { vertical-align: -1px }
+
+.preloader {
+    margin: 0 auto;
+    display: block;
+}
 /* end of general */
 
 /* wrapper */
