@@ -1,0 +1,410 @@
+/*
+ * HTML5 Boilerplate
+ *
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+body {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+a {
+    color: #005580;
+}
+
+a:visited {
+    color: #005580;
+}
+
+a:hover {
+    color: #0088CC;
+}
+
+/*
+ * Remove text-shadow in selection highlight: h5bp.com/i
+ * These selection declarations have to be separate.
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+/*
+ * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
+ */
+
+img {
+    vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Chrome Frame prompt
+   ========================================================================== */
+
+.chromeframe {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+/* general */
+html, body {height: 100%;}
+html {background: url('/static/img/bg.png') repeat;}
+
+body, input {font-family: 'Terminal Dosis', sans-serif;}
+
+::-webkit-input-placeholder {color: #999;}
+input:-moz-placeholder {color:#999;}
+
+.input-text {
+    width: 364px;
+    margin: 3px 0;
+    padding: 3px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+}
+
+.input-error {border-color: #953B39;}
+.checkbox { vertical-align: -1px }
+/* end of general */
+
+/* wrapper */
+.wrapper {padding: 35px 0;}
+
+.container {
+    width: 375px;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: #fff;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    -webkit-box-shadow: 0 0 8px -1px #444;
+       -moz-box-shadow: 0 0 8px -1px #444;
+            box-shadow: 0 0 8px -1px #444;
+}
+/* end of wrapper */
+
+/* header */
+.header {
+    margin: 0 0 23px;
+    text-align: center;
+}
+.header h1 {
+    margin: 0;
+    font-family: 'Merienda One', cursive;
+}
+.header h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: italic;
+}
+/* end of header */
+
+/* tasklist and its items */
+.tasklist {
+    margin: 15px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tasklist-item {
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+.tasklist-item:hover {background-color: #eee;}
+.tasklist-item:first-child {border-top: 1px solid #eee;}
+.tasklist-item:hover .tasklist-item-delete {display: inline;}
+
+.tasklist-item-title {margin-left: 3px;}
+.tasklist-item-done .tasklist-item-title {text-decoration: line-through;}
+
+.tasklist-item-delete {
+    width: 15px;
+    height: 18px;
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    display: none;
+    cursor: pointer;
+    border: 0;
+    background: url('/static/img/trash.png') no-repeat;
+}
+/* end of tasklist and its items */
+
+/* footer */
+.footer {
+    margin: 10px 0 0;
+    text-align: center;
+}
+
+.tasklist-filters {
+    margin: 0;
+    padding: 0;
+}
+.tasklist-filter {
+    margin: 0 3px;
+    display: inline;
+}
+.tasklist-filter a {text-decoration: none;}
+.tasklist-filter-selected {font-weight: bold;}
+
+/* note */
+.note {
+    width: 100%;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    color: #fff;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.7);
+       -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.7);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.7);
+}
+
+.note .message {
+    margin: 4px 0;
+    text-align: center;
+}
+
+.note-error {
+    background-color: #953B39;
+}
+
+/* sloth */
+.sloth {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+}
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/*
+ * Image replacement
+ */
+
+.ir {
+    border: 0;
+    font: 0/0 a;
+    text-shadow: none;
+    color: transparent;
+    background-color: transparent;
+}
+
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/*
+ * Extends the .visuallyhidden class to allow the element to be focusable
+ * when navigated to via the keyboard: h5bp.com/p
+ */
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+/*
+ * Hide visually and from screenreaders, but maintain layout
+ */
+
+.invisible {
+    visibility: hidden;
+}
+
+/**
+ * Clearfix helper
+ * Used to contain floats: h5bp.com/q
+ */
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   Theses examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow:none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
