@@ -2,11 +2,11 @@ define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/ta
   'use strict';
 
   // dependencies
-  var mediator = require('mediator'),
-      TasksCollection = require('collections/tasks'),
-      TaskListView = require('views/tasklist'),
-      TaskListAccessView = require('views/tasklist-access'),
-      NewTaskListView = require('views/tasklist-new'),
+  var mediator             = require('mediator'),
+      TasksCollection      = require('collections/tasks'),
+      TaskListView         = require('views/tasklist'),
+      TaskListAccessView   = require('views/tasklist-access'),
+      NewTaskListView      = require('views/tasklist-new'),
       TaskListNotFoundView = require('views/tasklist-notfound');
 
   // module code
@@ -32,14 +32,16 @@ define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/ta
       if (this.currentView) this.currentView.remove();
       
       this.currentView = new NewTaskListView();
-      this.$content.append(this.currentView.render().el);
+      this.$content.html(this.currentView.render().el);
+      this.currentView.focus();
     },
 
     unauthorized: function(taskListId) {
       if (this.currentView) this.currentView.remove();
       
       this.currentView = new TaskListAccessView({taskListId: this.taskListId});
-      this.$content.append(this.currentView.render().el);
+      this.$content.html(this.currentView.render().el);
+      this.currentView.focus();
     },
 
     viewList: function(taskListId) {
@@ -47,7 +49,8 @@ define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/ta
 
       this.taskListId = taskListId;
       this.currentView = new TaskListView({ taskListId: taskListId, collection: new TasksCollection([], { taskListId: taskListId }) });
-      this.$content.append(this.currentView.render().el);
+      this.$content.html(this.currentView.render().el);
+      this.currentView.focus();
     },
 
     viewByFilter: function(taskListId, filter) {
@@ -57,18 +60,19 @@ define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/ta
       }
       if (!this.currentView) {
         this.currentView = new TaskListView({ taskListId: taskListId, filter: filter, collection: new TasksCollection([], { taskListId: taskListId }) });
-        this.$content.append(this.currentView.render().el);
+        this.$content.html(this.currentView.render().el);
       }
 
       this.taskListId = taskListId;
       this.currentView.trigger('change:filter', filter);
+      this.currentView.focus();
     },
 
     notFound: function() {
       if (this.currentView) this.currentView.remove();
       
       this.currentView = new TaskListNotFoundView({taskListId: this.taskListId});
-      this.$content.append(this.currentView.render().el);
+      this.$content.html(this.currentView.render().el);
     },
 
     _navigationChanged: function(url) {

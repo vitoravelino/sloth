@@ -35,6 +35,7 @@ define(['mediator', 'notifier', 'views/task'], function() {
     addTask: function(model) {
       var task = new TaskView({ model: model, collection: this.collection });
       this.list.prepend(task.render().el);
+      this.focus();
     },
 
     addTasks: function() {
@@ -53,6 +54,10 @@ define(['mediator', 'notifier', 'views/task'], function() {
       }
     },
     
+    focus: function() {
+      this.input.focus();
+    },
+
     render: function() {
       this.$el.append(this.template({tasklist_id: this.taskListId}));
       this._cacheElements();
@@ -80,14 +85,9 @@ define(['mediator', 'notifier', 'views/task'], function() {
       switch(resp.status) {
         case 401:
           mediator.trigger('unauthorized');
-          //notifier.notify('Whoops! This tasklist is protected by a password.', {timer: 5})
           break;
         case 404:
           mediator.trigger('notfound');
-          break;
-        case 409:
-          this.input.addClass('error');
-          notifier.notify('Whoops! This tasklist id already exists. Try again with another id. :)', {timer: 5})
           break;
         default:
           notifier.notify('Whoops! Something awkward occurred... Fuck!', {timer: 5})

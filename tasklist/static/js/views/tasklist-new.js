@@ -23,6 +23,10 @@ define(['mediator', 'notifier', 'models/tasklist'], function() {
       this.model.on('error', this._handleError, this);
     },
 
+    focus: function() {
+      this.inputId.focus();
+    },
+    
     render: function() {
       this.$el.append(this.template());
       this._cacheElements();

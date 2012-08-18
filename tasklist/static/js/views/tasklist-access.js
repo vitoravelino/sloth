@@ -26,7 +26,11 @@ define(['mediator', 'notifier'], function() {
       this.inputPassword.removeClass('input-error');
       mediator.trigger('authorizeSession', { credentials: {tasklist_id: this.taskListId, password: this.inputPassword.val()}, context: this, error: this._handleError });
     },
-
+    
+    focus: function() {
+      this.inputPassword.focus();
+    },
+    
     render: function() {
       this.$el.append(this.template({tasklist_id: this.taskListId}));
       this._cacheElements();
@@ -35,7 +39,6 @@ define(['mediator', 'notifier'], function() {
 
     _cacheElements: function() {
       this.inputPassword = this.$('#tasklist-input-password');
-      this.inputPassword.focus();
     },
 
     _handleError: function(resp) {
