@@ -14,7 +14,8 @@ define(['mediator', 'notifier', 'models/tasklist'], function() {
     template: _.template($('#tasklist-new-template').html()),
 
     events: {
-      'submit form': '_createTaskList'
+      'submit #existent-tasklist': '_accessTasklist',
+      'submit #new-tasklist': '_createTaskList'
     },
 
     initialize: function() {
@@ -31,6 +32,12 @@ define(['mediator', 'notifier', 'models/tasklist'], function() {
       this.$el.append(this.template());
       this._cacheElements();
       return this;
+    },
+    
+    _accessTasklist: function(e) {
+      e.preventDefault();
+
+      mediator.trigger('navigation:change', this.$('#existent-tasklist-input-id').val());
     },
 
     _cacheElements: function() {

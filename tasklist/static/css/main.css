@@ -166,6 +166,10 @@ input:-moz-placeholder {color:#999;}
 }
 /* end of header */
 
+/* existent tasklist form */
+.existent-tasklist .input-text {width: 172px}
+/* end of existent tasklist form */
+
 /* tasklist and its items */
 .tasklist {
     margin: 15px 0 0;

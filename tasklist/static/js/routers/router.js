@@ -76,7 +76,7 @@ define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/ta
     },
 
     _navigationChanged: function(url) {
-      this.navigate(url);
+      this.navigate('#/' + url);
       Backbone.history.loadUrl(url); // necessary if url is the same of current fragment
     }
 

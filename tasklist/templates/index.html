@@ -44,9 +44,21 @@
 
   <!-- templates  -->
   <script type="text/template" id="tasklist-new-template">
-    <p>Please, type the <em>tasklist id</em> and the <em>password</em> to access it.</p>
+    <p>If you already created a tasklist and want to access it, type its id and press enter:</p>
     
-    <form>
+    <form id="existent-tasklist" class="existent-tasklist">
+      <fieldset>
+        <label for="existent-tasklist-id">http://slooth.herokuapp.com/</label>
+        <input id="existent-tasklist-input-id" class="input-text" type="text" placeholder="e.g.: mytasklist" />
+        <input class="visuallyhidden" type="submit" />
+      </fieldset>
+    </form>
+    
+    <hr />
+
+    <p>If you want to create a new tasklist, type the <em>tasklist id</em> and the <em>password</em> below:</p>
+    
+    <form id="new-tasklist">
       <fieldset>
         <input id="tasklist-input-id" class="input-text" type="text" name="tasklist_id" placeholder="Task list id (e.g.: mytasklist)"/>
         <input id="tasklist-input-password" class="input-text" type="password" name="password" placeholder="Password to access the task list"/>
