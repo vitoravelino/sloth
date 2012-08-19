@@ -1,11 +1,11 @@
-define(['backbone', 'template'], function() {
+define(['sloth'], function() {
   'use strict';
 
   // dependencies
-  var TemplateManager = require('template');
+  var Sloth = require('sloth');
 
   // module code
-  var NotFoundView = Backbone.View.extend({
+  var NotFoundView = Sloth.View.extend({
 
     tagName: 'section',
 
@@ -16,11 +16,8 @@ define(['backbone', 'template'], function() {
     },
 
     render: function() {
-      var that = this;
       this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
-      TemplateManager.get(this.template, {data: {tasklist_id: this.taskListId}, callback: function(template) {
-        that.$el.html(template);
-      }});
+      this.loadTemplate({tasklist_id: this.taskListId});
 
       return this;
     }

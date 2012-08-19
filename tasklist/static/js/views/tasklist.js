@@ -1,14 +1,14 @@
-define(['mediator', 'notifier', 'template', 'views/task'], function() {
+define(['mediator', 'notifier', 'sloth', 'views/task'], function() {
   'use strict';
 
   // dependencies
-  var mediator        = require('mediator'),
-      notifier        = require('notifier'),
-      TemplateManager = require('template'),
-      TaskView        = require('views/task');
+  var mediator = require('mediator'),
+      notifier = require('notifier'),
+      Sloth    = require('sloth'),
+      TaskView = require('views/task');
 
   // module code
-  var TaskListView = Backbone.View.extend({
+  var TaskListView = Sloth.View.extend({
 
     tagName: 'section',
 
@@ -26,9 +26,6 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
       this.collection.on('error', this._handleError, this);
       this.collection.on('change', this._updateTask, this);
 
-      // other
-      this.on('rendered', this.collection.fetch, this.collection);
-      
       this.filter     = this.options.filter || 'all';
       this.taskListId = this.options.taskListId;
     },
@@ -57,34 +54,30 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
       }
     },
     
+    cacheElements: function() {
+      this.input   = this.$('#task-new-input');
+      this.list    = this.$('#task-list');
+      this.filters = this.$('#tasklist-filters');
+    },
+    
     focus: function() {
       if (this.input) this.input.focus();
     },
 
     render: function() {
-      var that = this;
       this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
-      //this.loadTemplate({tasklist_id: this.taskListId});
+      this.loadTemplate({tasklist_id: this.taskListId});
 
-      TemplateManager.get(this.template, {data: {tasklist_id: this.taskListId}, callback: function(template) {
-        that.$el.html(template);
-        that.rendered = true;
-        that._cacheElements();
-        that.focus();
-        that.trigger('rendered');
-      }});
       return this;
+    },
+    
+    rendered: function() {
+      this.collection.fetch();
     },
 
     updateFilter: function(filter) {
       this.filter = filter;
       this.addTasks(); // refresh the tasks based on the filter
-    },
-
-    _cacheElements: function() {
-      this.input   = this.$('#task-new-input');
-      this.list    = this.$('#task-list');
-      this.filters = this.$('#tasklist-filters');
     },
 
     _clearInput: function() {

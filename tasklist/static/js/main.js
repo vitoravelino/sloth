@@ -16,12 +16,13 @@ require.config({
     },
 
     paths: {
+        backbone: 'vendor/backbone-0.9.2',
         jquery: 'vendor/jquery-1.8.0.min',
         lodash: 'vendor/lodash-0.4.2.min',
-        backbone: 'vendor/backbone-0.9.2',
+        auth: 'libs/auth',
         mediator: 'libs/mediator',
         notifier: 'libs/notifier',
-        auth: 'libs/auth',
+        sloth: 'libs/sloth',
         template: 'libs/template'
     }
 });

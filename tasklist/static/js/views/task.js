@@ -1,12 +1,12 @@
-define(['mediator', 'template'], function() {
+define(['mediator', 'sloth'], function() {
   'use strict';
 
   // dependencies
-  var mediator        = require('mediator'),
-      TemplateManager = require('template');
+  var mediator = require('mediator'),
+      Sloth    = require('sloth');
 
   // module code
-  var TaskView = Backbone.View.extend({
+  var TaskView = Sloth.View.extend({
     
     tagName: 'li',
 
@@ -36,16 +36,16 @@ define(['mediator', 'template'], function() {
     },
 
     render: function() {
-      var that = this;
       this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
-      TemplateManager.get(this.template, {data: this.model.toJSON(), callback: function(template) {
-        that.$el.html(template);
-        that.$el.toggleClass('tasklist-item-done', that.model.get('completed'));
-      }});
+      this.loadTemplate(this.model.toJSON());
       
       return this;
     },
 
+    rendered: function() {
+      this.$el.toggleClass('tasklist-item-done', this.model.get('completed'));
+    },
+    
     _handleError: function(model, resp) {
       switch(resp.status) {
         case 401:
@@ -58,7 +58,8 @@ define(['mediator', 'template'], function() {
           mediator.trigger('fuuuu');
           break
       }
-    },
+    }
+    
   });
 
   return TaskView;

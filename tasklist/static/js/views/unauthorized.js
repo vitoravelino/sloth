@@ -1,13 +1,13 @@
-define(['mediator', 'notifier', 'template'], function() {
+define(['mediator', 'notifier', 'sloth'], function() {
   'use strict';
 
   // dependencies
-  var mediator        = require('mediator'),
-      notifier        = require('notifier'),
-      TemplateManager = require('template');
+  var mediator = require('mediator'),
+      notifier = require('notifier'),
+      Sloth    = require('sloth');
 
   // module code
-  var UnauthorizedView = Backbone.View.extend({
+  var UnauthorizedView = Sloth.View.extend({
 
     tagName: 'section',
 
@@ -33,17 +33,13 @@ define(['mediator', 'notifier', 'template'], function() {
     },
     
     render: function() {
-      var that = this;
       this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
-      TemplateManager.get(this.template, {data: {tasklist_id: this.taskListId}, callback: function(template) {
-        that.$el.html(template);
-        that._cacheElements();
-        that.focus();
-      }});
+      this.loadTemplate({tasklist_id: this.taskListId})
+
       return this;
     },
 
-    _cacheElements: function() {
+    cacheElements: function() {
       this.inputPassword = this.$('#tasklist-input-password');
     },
 

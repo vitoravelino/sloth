@@ -1,14 +1,14 @@
-define(['mediator', 'notifier', 'template', 'models/tasklist'], function() {
+define(['sloth', 'mediator', 'notifier', 'models/tasklist'], function() {
   'use strict';
 
   // dependencies
-  var mediator        = require('mediator'),
-      notifier        = require('notifier'),
-      TemplateManager = require('template'),
-      TaskList        = require('models/tasklist');
+  var mediator = require('mediator'),
+      notifier = require('notifier'),
+      Sloth    = require('sloth'),
+      TaskList = require('models/tasklist');
 
   // module code
-  var IndexView = Backbone.View.extend({
+  var IndexView = Sloth.View.extend({
 
     template: 'index',
 
@@ -23,19 +23,19 @@ define(['mediator', 'notifier', 'template', 'models/tasklist'], function() {
       this.model.on('error', this._handleError, this);
     },
 
+    cacheElements: function() {
+      this.inputId = this.$('#tasklist-input-id');
+      this.inputPassword = this.$('#tasklist-input-password');
+    },
+
     focus: function() {
       if (this.inputId) this.inputId.focus();
     },
     
     render: function() {
-      var that = this;
       this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
-      TemplateManager.get(this.template, {callback: function(template) {
-        that.$el.html(template);
-        that._cacheElements();
-        that.focus();
-      }});
-
+      this.loadTemplate();
+      
       return this;
     },
     
@@ -43,11 +43,6 @@ define(['mediator', 'notifier', 'template', 'models/tasklist'], function() {
       e.preventDefault();
 
       mediator.trigger('navigation:change', this.$('#existent-tasklist-input-id').val());
-    },
-
-    _cacheElements: function() {
-      this.inputId = this.$('#tasklist-input-id');
-      this.inputPassword = this.$('#tasklist-input-password');
     },
 
     _created: function(tasklist) {
