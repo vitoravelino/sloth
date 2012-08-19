@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import request, render_template, redirect
+from flask import request, render_template, redirect, send_from_directory
 
 from tasklist import app, models
 from tasklist.utils import to_json, render_json, generate_uuid, cache
@@ -8,15 +8,25 @@ from tasklist.validators import TaskListValidator, TaskValidator
 from tasklist.exceptions import TaskNotFoundException, TaskListNotFoundException, TaskListAlreadyExistsException
 from tasklist.decorators import token_required, tasklist_required
 
+import os
+
 @app.route("/")
 def index():
 	"""
-	Initial page.
+	Initial page
 	"""
 	return render_template("index.html")
 
+@app.route('/favicon.ico')
+def favicon():
+	"""
+	Serves favicon.ico on root
+	"""
+	return send_from_directory(os.path.join(app.root_path, 'static'), 'img/favicon.ico')
+
+
 @app.route("/<path:path>")
-def all(path):
+def path(path):
 	"""
 	Redirect to index putting a '#' in front of the path (Backbone that handle views)
 	"""

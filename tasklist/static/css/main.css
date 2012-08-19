@@ -115,7 +115,7 @@ body, input {font-family: 'Terminal Dosis', sans-serif;}
 input:-moz-placeholder {color:#999;}
 
 .input-text {
-    width: 364px;
+    width: 365px;
     margin: 3px 0;
     padding: 3px;
     border: 1px solid #aaa;
@@ -167,7 +167,7 @@ input:-moz-placeholder {color:#999;}
 /* end of header */
 
 /* existent tasklist form */
-.existent-tasklist .input-text {width: 172px}
+.existent-tasklist .input-text {width: 171px}
 /* end of existent tasklist form */
 
 /* tasklist and its items */
