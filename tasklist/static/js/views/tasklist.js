@@ -24,7 +24,8 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
       this.collection.on('add', this._clearInput, this);
       this.collection.on('reset', this.addTasks, this);
       this.collection.on('error', this._handleError, this);
-      
+      this.collection.on('change', this._updateTask, this);
+
       // other
       this.on('rendered', this.collection.fetch, this.collection);
       
@@ -115,6 +116,10 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
       return this.filter === 'all' ||
              this.filter === 'completed' && model.get('completed') ||
              this.filter === 'remaining' && !model.get('completed');
+    },
+
+    _updateTask: function(model) {
+      if (!this._hasToDisplay(model)) model.trigger('hide');
     },
 
     _updateUIFilter: function() {

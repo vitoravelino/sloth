@@ -21,7 +21,8 @@ define(['mediator', 'template'], function() {
 
     initialize: function() {
       // model events
-      this.model.on('destroy', this.remove, this); // remover eventos com off()
+      this.model.on('destroy', this.remove, this);
+      this.model.on('hide', this.remove, this);
       this.model.on('error', this._handleError, this);
     },
 
