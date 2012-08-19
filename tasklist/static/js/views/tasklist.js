@@ -16,7 +16,6 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
     
     events: {
       'submit form': '_createTask',
-      'click .tasklist-filter': '_updateFilter'
     },
 
     initialize: function() {
@@ -27,9 +26,9 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
       this.collection.on('error', this._handleError, this);
       
       // other
-      this.on('change:filter', this._updateFilter, this);
       this.on('rendered', this.collection.fetch, this.collection);
-      this.filter = this.options.filter;
+      
+      this.filter     = this.options.filter;
       this.taskListId = this.options.taskListId;
     },
 
@@ -40,7 +39,10 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
     },
 
     addTasks: function() {
+      if (!this.rendered) return;
+      
       this.list.html('');
+      this._updateUIFilter();
 
       switch(this.filter) {
         case 'completed':
@@ -66,11 +68,17 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
 
       TemplateManager.get(this.template, {data: {tasklist_id: this.taskListId}, callback: function(template) {
         that.$el.html(template);
+        that.rendered = true;
         that._cacheElements();
         that.focus();
         that.trigger('rendered');
       }});
       return this;
+    },
+
+    updateFilter: function(filter) {
+      this.filter = filter;
+      this.addTasks(); // refresh the tasks based on the filter
     },
 
     _cacheElements: function() {
@@ -104,11 +112,9 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
       }
     },
 
-    _updateFilter: function(filter) {
-      this.filter = filter;
+    _updateUIFilter: function() {
       this.filters.find('.tasklist-filter-selected').removeClass('tasklist-filter-selected');
       this.filters.find('.tasklist-filter-' + this.filter).addClass('tasklist-filter-selected');
-      this.addTasks(); // refresh the tasks based on the filter
     }
   
   });

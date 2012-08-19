@@ -59,12 +59,12 @@ define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/un
         this.currentView = undefined;
       }
       if (!this.currentView) {
+        this.taskListId = taskListId;
         this.currentView = new TaskListView({ taskListId: taskListId, filter: filter, collection: new TasksCollection([], { taskListId: taskListId }) });
         this.$content.html(this.currentView.render().el);
       }
 
-      this.taskListId = taskListId;
-      this.currentView.trigger('change:filter', filter);
+      this.currentView.updateFilter(filter);
       this.currentView.focus();
     },
 
