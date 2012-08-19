@@ -44,13 +44,13 @@ def remove_tasklist(tasklist_id):
 def __get_task(task_id):
 	return db_session.query(Task).get(task_id)
 
-def create_task(tasklist_id, title):
-	task = Task(tasklist_id, title)
+def create_task(tasklist_id, title, status):
+	task = Task(tasklist_id, title, status)
 	db_session.add(task)
 	db_session.commit()
 	return task
 
-def update_task_status(task_id, status):
+def update_task(task_id, title, status):
 	task = __get_task(task_id)
 	if task:
 		task.completed = status

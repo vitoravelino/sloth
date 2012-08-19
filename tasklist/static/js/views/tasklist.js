@@ -36,7 +36,7 @@ define(['mediator', 'notifier', 'sloth', 'views/task'], function() {
     },
 
     addTasks: function() {
-      if (!this.rendered) return;
+      if (!this.isRendered) return;
 
       this.list.html('');
       this._updateUIFilter();

@@ -4,11 +4,9 @@ class TaskValidator():
 
 	@staticmethod
 	def valid(task):
-		return task["title"] != None and len(task["title"]) > 0
+		return task["title"] != None and len(task["title"]) > 0 and \
+               task["completed"] != None
 
-	@staticmethod
-	def valid_status(status):
-		return status == True or status == False
 
 class TaskListValidator():
 

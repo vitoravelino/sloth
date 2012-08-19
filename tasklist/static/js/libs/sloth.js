@@ -29,7 +29,7 @@ define(['backbone', 'template'], function() {
       
       TemplateManager.get(this.template, {data: data, callback: function(template) {
           that.$el.html(template);
-          that.rendered = true;
+          that.isRendered = true;
           that.cacheElements();
           that.focus();
           that.rendered();

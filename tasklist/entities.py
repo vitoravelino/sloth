@@ -27,10 +27,11 @@ class Task(Base):
 	completed = Column(Boolean)
 	tasklist_id = Column(String, ForeignKey('tasklists.id'))
 
-	def __init__(self, tasklist_id, title):
+	def __init__(self, tasklist_id, title, completed):
 		 self.title = title
 		 self.completed = False
 		 self.tasklist_id = tasklist_id
+		 self.completed = completed
 
 	def to_dict(self):
 		return {'id': self.id, 'title': self.title, 'completed': self.completed}

@@ -45,11 +45,11 @@ def shutdown_session(exception=None):
 @app.route("/api/get_token", methods=['POST'])
 def authorize():
 	"""
-	POST /api/get_token - Authorize the client to use the api by giving it a temporary token
+	POST /api/get_token - Authorize a client to use the api by giving a temporary token to access the API
 
 	PARAMETERS:
-		tasklist_id - Id of your existent TaskList
-		password - The password to access TaskList's tasks
+		tasklist_id - Id of tasklist
+		password - Password to retrieve token
 	"""
 	try:
 		if models.authorize_user(request.json['tasklist_id'], request.json['password']):
@@ -71,8 +71,8 @@ def create_tasklist():
 
 	PARAMETERS:
 		model
-			tasklist_id - Id of your existent TaskList
-			password - The password to access TaskList's tasks
+			tasklist_id - Id of tasklist
+			password - Password to retrieve token
 	"""
 	task = request.json['model']
 	try:
@@ -89,10 +89,11 @@ def create_tasklist():
 @token_required
 def get_tasks(tasklist_id):
 	"""
-	GET /<tasklist_id>/tasks - Get all tasks that belogs to a TaskList.
+	GET /<tasklist_id>/tasks - Get all tasks that belogs to a tasklist
 
 	PARAMETERS:
-		tasklist_id - Id of your existent TaskList
+		tasklist_id - Id of tasklist
+		token - Token given for authorization
 	"""
 	return render_json(to_json(models.get_tasks(tasklist_id)))
 
@@ -102,15 +103,19 @@ def get_tasks(tasklist_id):
 @token_required
 def create_task(tasklist_id):
 	"""
-	POST /<tasklist_id>/tasks - Create a task into a TaskList.
+	POST /<tasklist_id>/tasks - Create a task associating it to a tasklist
 
 	PARAMETERS:
-		tasklist_id - Id of your existent TaskList
-		title - Title of your task
+		tasklist_id - Id of existent TaskList
+		model
+			title - Title of the task
+			completed - Status of the task
+		authentication
+			token - Token given for authorization
 	"""
 	task = request.json['model']
 	if TaskValidator.valid(task):
-		task = models.create_task(tasklist_id, task['title'])
+		task = models.create_task(tasklist_id, task['title'], task['completed'])
 		return render_json(to_json(task))
 	else:
 		return render_json('{"error": "Invalid task parameters"}'), 400
@@ -119,20 +124,23 @@ def create_task(tasklist_id):
 @app.route("/api/<tasklist_id>/tasks/<task_id>", methods=['PUT'])
 @tasklist_required
 @token_required
-def update_task_status(tasklist_id, task_id):
+def update_task(tasklist_id, task_id):
 	"""
 	PUT /<tasklist_id>/tasks/<task_id> - Modify the status of a Task that belongs to a TaskList.
 
 	PARAMETERS:
-		tasklist_id - Id of your existent TaskList
+		tasklist_id - Id of tasklist
 		task_id - Id of the task
 		model
-			completed - Task's statuss
+			title - Title of the task
+			completed - Status of the task
+		authentication
+			token - Token given for authorization
 	"""
 	try:
 		task = request.json['model']
-		if TaskValidator.valid_status(task['completed']):
-			task = models.update_task_status(task_id, task['completed'])
+		if TaskValidator.valid(task):
+			task = models.update_task(task_id, task['title'], task['completed'])
 			return render_json(to_json(task))
 		else:
 			return render_json('{"error": "Invalid parameters"}'), 400
@@ -148,11 +156,13 @@ def delete_task(tasklist_id, id):
 	DELETE /<tasklist_id>/tasks/<task_id> - Remove a Task from a TaskList.
 
 	PARAMETERS:
-		tasklist_id - Id of your existent TaskList
+		tasklist_id - Id of the tasklist
 		task_id - Id of the task
+		authentication
+			token - Token given for authorization	
 	"""
 	try:
 		models.remove_task(id)
-		return render_json('{"ok": "deleted"}')
+		return render_json('{"okay": "deleted"}')
 	except TaskNotFoundException as e:
 		return render_json('{"error": %s }', e.message), 404
