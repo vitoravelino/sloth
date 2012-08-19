@@ -1,8 +1,9 @@
-define(['mediator'], function() {
+define(['mediator', 'template'], function() {
   'use strict';
 
   // dependencies
-  var mediator = require('mediator');
+  var mediator        = require('mediator'),
+      TemplateManager = require('template');
 
   // module code
   var TaskView = Backbone.View.extend({
@@ -11,7 +12,7 @@ define(['mediator'], function() {
 
     className: 'tasklist-item',
 
-    template: _.template($('#task-template').html()),
+    template: 'task',
 
     events: {
       'click .tasklist-item-delete': 'destroyTask',
@@ -34,8 +35,13 @@ define(['mediator'], function() {
     },
 
     render: function() {
-      this.$el.html(this.template(this.model.toJSON()));
-      this.$el.toggleClass('tasklist-item-done', this.model.get('completed'));
+      var that = this;
+      this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
+      TemplateManager.get(this.template, {data: this.model.toJSON(), callback: function(template) {
+        that.$el.html(template);
+        that.$el.toggleClass('tasklist-item-done', that.model.get('completed'));
+      }});
+      
       return this;
     },
 

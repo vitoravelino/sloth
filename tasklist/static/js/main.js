@@ -21,7 +21,8 @@ require.config({
         backbone: 'vendor/backbone-0.9.2',
         mediator: 'libs/mediator',
         notifier: 'libs/notifier',
-        text: 'libs/text'
+        auth: 'libs/auth',
+        template: 'libs/template'
     }
 });
 

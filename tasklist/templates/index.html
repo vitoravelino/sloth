@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Task list</title>
+  <title>Sloth says: Ruth... Ruth... Ruth...</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
 
@@ -42,79 +42,7 @@
   <!-- sloth says: ruth... ruth... ruth... -->
   <img class="sloth" src="{{ url_for('static', filename='img/sloth.png') }}" title="Ruth... Ruth... Ruth..." alt="Sloth" />
 
-  <!-- templates  -->
-  <script type="text/template" id="tasklist-new-template">
-    <p>If you already created a tasklist and want to access it, type its id and press enter:</p>
-    
-    <form id="existent-tasklist" class="existent-tasklist">
-      <fieldset>
-        <label for="existent-tasklist-id">http://slooth.herokuapp.com/</label>
-        <input id="existent-tasklist-input-id" class="input-text" type="text" placeholder="e.g.: mytasklist" />
-        <input class="visuallyhidden" type="submit" />
-      </fieldset>
-    </form>
-    
-    <hr />
-
-    <p>If you want to create a new tasklist, type the <em>tasklist id</em> and the <em>password</em> below:</p>
-    
-    <form id="new-tasklist">
-      <fieldset>
-        <input id="tasklist-input-id" class="input-text" type="text" name="tasklist_id" placeholder="Task list id (e.g.: mytasklist)"/>
-        <input id="tasklist-input-password" class="input-text" type="password" name="password" placeholder="Password to access the task list"/>
-        <input class="visuallyhidden" type="submit" />
-      </fieldset>
-    </form>
-  </script><!-- #tasklist-new-template -->
-
-  <script type="text/template" id="tasklist-access-template">
-    <p>The <em><%= tasklist_id %></em> tasklist is protected by a password. If you are not the owner of it, please go <a href="#/">here</a> and create one for you.</a>
-    <p>Type the password to access the tasklist:</p>
-    
-    <form>
-      <fieldset>
-        <input id="tasklist-input-id" type="hidden" value="{{ tasklist_id }}" /> 
-        <input id="tasklist-input-password" class="input-text" type="password" name="password" placeholder="Password to access the task list"/>
-        <input class="visuallyhidden" type="submit" />
-      </fieldset>
-    </form>
-  </script><!-- #tasklist-access -->
-
-  <script type="text/template" id="tasklist-notfound-template">
-    <p>The <em><%= tasklist_id %></em> tasklist does not have an owner and it's free for <a href="#/">reservation</a>.</p>
-  </script><!-- #tasklist-notfound -->
-  
-  <script type="text/template" id="tasklist-view-template">
-    <form>
-      <fieldset>
-        <input id="task-new-input" class="input-text" type="text" name="title" placeholder="What needs to be done?" />
-        <input class="visuallyhidden" type="submit" />
-      </fieldset>
-    </form>
-
-    <ul id="task-list" class="tasklist">
-    </ul> <!-- .todos -->
-
-    <footer class="footer">
-      <nav>
-        <ul id="tasklist-filters" class="tasklist-filters">
-          <li class="tasklist-filter tasklist-filter-all tasklist-filter-selected"><a href="#/<%= tasklist_id %>/all">All</a></li>
-          <li class="tasklist-filter tasklist-filter-remaining"><a href="#/<%= tasklist_id %>/remaining">Remaining</a></li>
-          <li class="tasklist-filter tasklist-filter-completed"><a href="#/<%= tasklist_id %>/completed">Completed</a></li>
-        </ul>
-      </nav>
-    </footer>
-  </script> <!-- #tasklist-view -->
-
-  <script type="text/template" id="task-template">
-    <label title="Mask as completed">
-      <input class="checkbox" type="checkbox" <%= completed ? checked="checked" : '' %> />
-      <span class="tasklist-item-title"><%- title %></span>
-    </label>
-    <button class="tasklist-item-delete" title="Delete task"></button>
-  </script>
-
-  <!-- require -->
+  <!-- RequireJS -->
   <script data-main="static/js/main" src="{{ url_for('static', filename='js/vendor/require-2.0.5.min.js') }}"></script>
 
   <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

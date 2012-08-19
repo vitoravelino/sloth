@@ -1,17 +1,18 @@
-define(['mediator', 'notifier', 'views/task'], function() {
+define(['mediator', 'notifier', 'template', 'views/task'], function() {
   'use strict';
 
   // dependencies
-  var mediator = require('mediator'),
-      notifier = require('notifier'),
-      TaskView = require('views/task');
+  var mediator        = require('mediator'),
+      notifier        = require('notifier'),
+      TemplateManager = require('template'),
+      TaskView        = require('views/task');
 
   // module code
   var TaskListView = Backbone.View.extend({
 
     tagName: 'section',
 
-    template: _.template($('#tasklist-view-template').html()),
+    template: 'tasklist',
     
     events: {
       'submit form': '_createTask',
@@ -24,10 +25,10 @@ define(['mediator', 'notifier', 'views/task'], function() {
       this.collection.on('add', this._clearInput, this);
       this.collection.on('reset', this.addTasks, this);
       this.collection.on('error', this._handleError, this);
-      this.collection.fetch();
       
       // other
       this.on('change:filter', this._updateFilter, this);
+      this.on('rendered', this.collection.fetch, this.collection);
       this.filter = this.options.filter;
       this.taskListId = this.options.taskListId;
     },
@@ -55,12 +56,20 @@ define(['mediator', 'notifier', 'views/task'], function() {
     },
     
     focus: function() {
-      this.input.focus();
+      if (this.input) this.input.focus();
     },
 
     render: function() {
-      this.$el.append(this.template({tasklist_id: this.taskListId}));
-      this._cacheElements();
+      var that = this;
+      this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
+      //this.loadTemplate({tasklist_id: this.taskListId});
+
+      TemplateManager.get(this.template, {data: {tasklist_id: this.taskListId}, callback: function(template) {
+        that.$el.html(template);
+        that._cacheElements();
+        that.focus();
+        that.trigger('rendered');
+      }});
       return this;
     },
 

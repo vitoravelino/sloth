@@ -1,13 +1,13 @@
-define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/tasklist-access', 'views/tasklist-new', 'views/tasklist-notfound'], function() {
+define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/unauthorized', 'views/index', 'views/notfound'], function() {
   'use strict';
 
   // dependencies
-  var mediator             = require('mediator'),
-      TasksCollection      = require('collections/tasks'),
-      TaskListView         = require('views/tasklist'),
-      TaskListAccessView   = require('views/tasklist-access'),
-      NewTaskListView      = require('views/tasklist-new'),
-      TaskListNotFoundView = require('views/tasklist-notfound');
+  var mediator         = require('mediator'),
+      TasksCollection  = require('collections/tasks'),
+      TaskListView     = require('views/tasklist'),
+      UnauthorizedView = require('views/unauthorized'),
+      IndexView        = require('views/index'),
+      NotFoundView     = require('views/notfound');
 
   // module code
   var Router = Backbone.Router.extend({
@@ -31,7 +31,7 @@ define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/ta
     index: function() {
       if (this.currentView) this.currentView.remove();
       
-      this.currentView = new NewTaskListView();
+      this.currentView = new IndexView();
       this.$content.html(this.currentView.render().el);
       this.currentView.focus();
     },
@@ -39,7 +39,7 @@ define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/ta
     unauthorized: function(taskListId) {
       if (this.currentView) this.currentView.remove();
       
-      this.currentView = new TaskListAccessView({taskListId: this.taskListId});
+      this.currentView = new UnauthorizedView({taskListId: this.taskListId});
       this.$content.html(this.currentView.render().el);
       this.currentView.focus();
     },
@@ -71,7 +71,7 @@ define(['backbone', 'mediator', 'collections/tasks', 'views/tasklist', 'views/ta
     notFound: function() {
       if (this.currentView) this.currentView.remove();
       
-      this.currentView = new TaskListNotFoundView({taskListId: this.taskListId});
+      this.currentView = new NotFoundView({taskListId: this.taskListId});
       this.$content.html(this.currentView.render().el);
     },
 

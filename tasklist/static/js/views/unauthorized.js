@@ -1,16 +1,17 @@
-define(['mediator', 'notifier'], function() {
+define(['mediator', 'notifier', 'template'], function() {
   'use strict';
 
   // dependencies
-  var mediator = require('mediator'),
-      notifier = require('notifier');
+  var mediator        = require('mediator'),
+      notifier        = require('notifier'),
+      TemplateManager = require('template');
 
   // module code
-  var TaskListAccessView = Backbone.View.extend({
+  var UnauthorizedView = Backbone.View.extend({
 
     tagName: 'section',
 
-    template: _.template($('#tasklist-access-template').html()),
+    template: 'unauthorized',
 
     events: {
       'submit form': 'authenticate'
@@ -24,16 +25,21 @@ define(['mediator', 'notifier'], function() {
       e.preventDefault();
 
       this.inputPassword.removeClass('input-error');
-      mediator.trigger('authorizeSession', { credentials: {tasklist_id: this.taskListId, password: this.inputPassword.val()}, context: this, error: this._handleError });
+      mediator.trigger('authorizeSession', {credentials: {tasklist_id: this.taskListId, password: this.inputPassword.val()}, context: this, error: this._handleError});
     },
     
     focus: function() {
-      this.inputPassword.focus();
+      if (this.inputPassword) this.inputPassword.focus();
     },
     
     render: function() {
-      this.$el.append(this.template({tasklist_id: this.taskListId}));
-      this._cacheElements();
+      var that = this;
+      this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
+      TemplateManager.get(this.template, {data: {tasklist_id: this.taskListId}, callback: function(template) {
+        that.$el.html(template);
+        that._cacheElements();
+        that.focus();
+      }});
       return this;
     },
 
@@ -55,6 +61,6 @@ define(['mediator', 'notifier'], function() {
 
   });
 
-  return TaskListAccessView;
+  return UnauthorizedView;
 
 });

@@ -1,17 +1,16 @@
-define(['mediator', 'notifier', 'models/tasklist'], function() {
+define(['mediator', 'notifier', 'template', 'models/tasklist'], function() {
   'use strict';
 
   // dependencies
-  var mediator = require('mediator'),
-      notifier = require('notifier'),
-      TaskList = require('models/tasklist');
+  var mediator        = require('mediator'),
+      notifier        = require('notifier'),
+      TemplateManager = require('template'),
+      TaskList        = require('models/tasklist');
 
   // module code
-  var NewTaskListView = Backbone.View.extend({
+  var IndexView = Backbone.View.extend({
 
-    tagName: 'section',
-
-    template: _.template($('#tasklist-new-template').html()),
+    template: 'index',
 
     events: {
       'submit #existent-tasklist': '_accessTasklist',
@@ -25,12 +24,18 @@ define(['mediator', 'notifier', 'models/tasklist'], function() {
     },
 
     focus: function() {
-      this.inputId.focus();
+      if (this.inputId) this.inputId.focus();
     },
     
     render: function() {
-      this.$el.append(this.template());
-      this._cacheElements();
+      var that = this;
+      this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
+      TemplateManager.get(this.template, {callback: function(template) {
+        that.$el.html(template);
+        that._cacheElements();
+        that.focus();
+      }});
+
       return this;
     },
     
@@ -77,6 +82,6 @@ define(['mediator', 'notifier', 'models/tasklist'], function() {
 
   });
   
-  return NewTaskListView;
+  return IndexView;
 
 });

@@ -1,0 +1,19 @@
+<form>
+  <fieldset>
+    <input id="task-new-input" class="input-text" type="text" name="title" placeholder="What needs to be done?" />
+    <input class="visuallyhidden" type="submit" />
+  </fieldset>
+</form>
+
+<ul id="task-list" class="tasklist">
+</ul> <!-- .todos -->
+
+<footer class="footer">
+  <nav>
+    <ul id="tasklist-filters" class="tasklist-filters">
+      <li class="tasklist-filter tasklist-filter-all tasklist-filter-selected"><a href="#/<%= tasklist_id %>/all">All</a></li>
+      <li class="tasklist-filter tasklist-filter-remaining"><a href="#/<%= tasklist_id %>/remaining">Remaining</a></li>
+      <li class="tasklist-filter tasklist-filter-completed"><a href="#/<%= tasklist_id %>/completed">Completed</a></li>
+    </ul>
+  </nav>
+</footer>
