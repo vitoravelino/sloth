@@ -28,19 +28,18 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
       // other
       this.on('rendered', this.collection.fetch, this.collection);
       
-      this.filter     = this.options.filter;
+      this.filter     = this.options.filter || 'all';
       this.taskListId = this.options.taskListId;
     },
 
     addTask: function(model) {
       var task = new TaskView({ model: model, collection: this.collection });
-      this.list.prepend(task.render().el);
-      this.focus();
+      if (this._hasToDisplay(model)) this.list.prepend(task.render().el);
     },
 
     addTasks: function() {
       if (!this.rendered) return;
-      
+
       this.list.html('');
       this._updateUIFilter();
 
@@ -89,7 +88,7 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
 
     _clearInput: function() {
       this.input.removeClass('error');
-      this.input.val('').blur();
+      this.input.val('');
     },
     
     _createTask: function(e) {
@@ -110,6 +109,12 @@ define(['mediator', 'notifier', 'template', 'views/task'], function() {
           notifier.notify('Whoops! Something awkward occurred... Fuck!', {timer: 5})
           break
       }
+    },
+
+    _hasToDisplay: function(model) {
+      return this.filter === 'all' ||
+             this.filter === 'completed' && model.get('completed') ||
+             this.filter === 'remaining' && !model.get('completed');
     },
 
     _updateUIFilter: function() {
