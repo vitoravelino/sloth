@@ -1204,7 +1204,6 @@
     // Remove this view from the DOM. Note that the view isn't present in the
     // DOM by default, so calling this method may be a no-op.
     remove: function() {
-      this.off();
       this.$el.remove();
       return this;
     },
@@ -1355,23 +1354,19 @@
     // Ensure that we have the appropriate request data.
     if (!options.data && model && (method === 'create' || method === 'update')) {
       params.contentType = 'application/json';
-      params.data = JSON.stringify({authentication: {token: sessionStorage.getItem('token')}, model: model});
-    }
-
-    // fix to have token appended in every request
-    if (!options.data && model && (method === 'delete')) {
-      params.contentType = 'application/json';
-      params.data = JSON.stringify({authentication: {token: sessionStorage.getItem('token')}});	
-    }
-
-    if (!options.data && model && (method === 'read')) {
-      params.data = {token: token};
+      params.data = JSON.stringify({model: model});
     }
 
     // For older servers, emulate JSON by encoding the request into an HTML-form.
     if (Backbone.emulateJSON) {
       params.contentType = 'application/x-www-form-urlencoded';
       params.data = params.data ? {model: params.data} : {};
+    }
+
+    if (token) {
+      params.beforeSend = function(xhr) {
+        xhr.setRequestHeader('Authorization', token);
+      }
     }
 
     // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
@@ -1382,6 +1377,7 @@
         params.type = 'POST';
         params.beforeSend = function(xhr) {
           xhr.setRequestHeader('X-HTTP-Method-Override', type);
+          xhr.setRequestHeader('Authorization', token);
         };
       }
     }

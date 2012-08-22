@@ -110,8 +110,6 @@ def create_task(tasklist_id):
 		model
 			title - Title of the task
 			completed - Status of the task
-		authentication
-			token - Token given for authorization
 	"""
 	task = request.json['model']
 	if TaskValidator.valid(task):
@@ -134,8 +132,6 @@ def update_task(tasklist_id, task_id):
 		model
 			title - Title of the task
 			completed - Status of the task
-		authentication
-			token - Token given for authorization
 	"""
 	try:
 		task = request.json['model']
@@ -158,8 +154,6 @@ def delete_task(tasklist_id, id):
 	PARAMETERS:
 		tasklist_id - Id of the tasklist
 		task_id - Id of the task
-		authentication
-			token - Token given for authorization	
 	"""
 	try:
 		models.remove_task(id)
