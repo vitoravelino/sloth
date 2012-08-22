@@ -24,6 +24,14 @@ define(['backbone', 'template'], function() {
         return this;
     },
 
+    // **close** is the function that removes the view's events and detach it 
+    // from DOM. It also calls **onClose** function.
+    close: function() { 
+      this.off();
+      this.onClose();
+      this.remove();
+    },
+
     loadTemplate: function(data) {
       var that = this;
       
@@ -34,6 +42,13 @@ define(['backbone', 'template'], function() {
           that.focus();
           that.rendered();
       }});
+    },
+    // **onClose** is the function that your view should override, in order
+    // to do anything after closing the view. By default, it removes events
+    // from model and collection if exists.
+    onClose: function() {
+      if (this.model) this.model.off();
+      if (this.collection) this.collection.off();
     },
 
     // **rendered** is the function that your view should override, in order

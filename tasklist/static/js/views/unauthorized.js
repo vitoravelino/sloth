@@ -31,7 +31,7 @@ define(['mediator', 'notifier', 'sloth'], function() {
     focus: function() {
       if (this.inputPassword) this.inputPassword.focus();
     },
-    
+
     render: function() {
       this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
       this.loadTemplate({tasklist_id: this.taskListId})

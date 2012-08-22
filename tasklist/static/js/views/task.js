@@ -21,8 +21,8 @@ define(['mediator', 'sloth'], function() {
 
     initialize: function() {
       // model events
-      this.model.on('destroy', this.remove, this);
-      this.model.on('hide', this.remove, this);
+      this.model.on('destroy', this.close, this);
+      this.model.on('hide', this.close, this);
       this.model.on('error', this._handleError, this);
     },
 

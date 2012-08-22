@@ -31,7 +31,7 @@ define(['sloth', 'mediator', 'notifier', 'models/tasklist'], function() {
     focus: function() {
       if (this.inputId) this.inputId.focus();
     },
-    
+
     render: function() {
       this.$el.html('<img class="preloader" src="/static/img/preloader.gif" alt="Loading..." title="Loading..." />');
       this.loadTemplate();
