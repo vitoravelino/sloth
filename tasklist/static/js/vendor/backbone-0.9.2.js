@@ -1365,7 +1365,7 @@
 
     if (token) {
       params.beforeSend = function(xhr) {
-        xhr.setRequestHeader('Authorization', token);
+        xhr.setRequestHeader('X-Authorization', token);
       }
     }
 
@@ -1383,7 +1383,7 @@
         params.type = 'POST';
         params.beforeSend = function(xhr) {
           xhr.setRequestHeader('X-HTTP-Method-Override', type);
-          xhr.setRequestHeader('Authorization', token);
+          xhr.setRequestHeader('X-Authorization', token);
         };
       }
     }

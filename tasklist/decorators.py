@@ -22,7 +22,7 @@ def token_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
         cacheToken = cache.get('key' + kwargs.get('tasklist_id'))
-        if cacheToken != request.headers.get('Authorization'):
+        if not request.headers.get('X-Authorization') or cacheToken != request.headers.get('X-Authorization'):
             return render_json('{"error": "Authentication required"}'), 401
         return func(*args, **kwargs)
     return decorated_view
