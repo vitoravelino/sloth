@@ -3,6 +3,7 @@ define(['backbone'], function() {
 
   // module code
   var Task = Backbone.Model.extend({
+    
     defaults: function() {
       return {
         title: '',
@@ -11,8 +12,9 @@ define(['backbone'], function() {
     },
 
     toggle: function() {
-      this.save({ completed: !this.get('completed') });
+      this.save('completed', !this.get('completed'), {wait: true});
     }
+
   });
 
   return Task;

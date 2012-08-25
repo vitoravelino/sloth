@@ -24,7 +24,7 @@ define(['mediator', 'notifier', 'sloth', 'views/task'], function() {
       this.collection.on('add', this._clearInput, this);
       this.collection.on('reset', this.addTasks, this);
       this.collection.on('error', this._handleError, this);
-      this.collection.on('change', this._updateTask, this);
+      this.collection.on('change:completed', this._updateTask, this);
 
       this.filter     = this.options.filter || 'all';
       this.taskListId = this.options.taskListId;

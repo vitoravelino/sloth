@@ -1,9 +1,9 @@
-//     Backbone.js 0.9.2
+// Backbone.js 0.9.2 (commit 9747d23)
 
-//     (c) 2010-2012 Jeremy Ashkenas, DocumentCloud Inc.
-//     Backbone may be freely distributed under the MIT license.
-//     For all details and documentation:
-//     http://backbonejs.org
+// (c) 2010-2012 Jeremy Ashkenas, DocumentCloud Inc.
+// Backbone may be freely distributed under the MIT license.
+// For all details and documentation:
+// http://backbonejs.org
 
 (function(){
 
@@ -561,7 +561,10 @@
     if (options.comparator !== void 0) this.comparator = options.comparator;
     this._reset();
     this.initialize.apply(this, arguments);
-    if (models) this.reset(models, {silent: true, parse: options.parse});
+    if (models) {
+      if (options.parse) models = this.parse(models);
+      this.reset(models, {silent: true, parse: options.parse});
+    }
   };
 
   // Define the Collection's inheritable methods.
@@ -788,14 +791,14 @@
     // collection immediately, unless `wait: true` is passed, in which case we
     // wait for the server to agree.
     create: function(model, options) {
-      var coll = this;
+      var collection = this;
       options = options ? _.clone(options) : {};
       model = this._prepareModel(model, options);
       if (!model) return false;
-      if (!options.wait) coll.add(model, options);
+      if (!options.wait) collection.add(model, options);
       var success = options.success;
       options.success = function(model, resp, options) {
-        if (options.wait) coll.add(model, options);
+        if (options.wait) collection.add(model, options);
         if (success) success(model, resp, options);
       };
       model.save(null, options);
@@ -864,11 +867,12 @@
   });
 
   // Underscore methods that we want to implement on the Collection.
-  var methods = ['forEach', 'each', 'map', 'reduce', 'reduceRight', 'find',
-    'detect', 'filter', 'select', 'reject', 'every', 'all', 'some', 'any',
-    'include', 'contains', 'invoke', 'max', 'min', 'sortBy', 'sortedIndex',
-    'toArray', 'size', 'first', 'initial', 'rest', 'last', 'without', 'indexOf',
-    'shuffle', 'lastIndexOf', 'isEmpty', 'groupBy'];
+  var methods = ['forEach', 'each', 'map', 'collect', 'reduce', 'foldl',
+    'inject', 'reduceRight', 'foldr', 'find', 'detect', 'filter', 'select',
+    'reject', 'every', 'all', 'some', 'any', 'include', 'contains', 'invoke',
+    'max', 'min', 'sortBy', 'sortedIndex', 'toArray', 'size', 'first', 'head',
+    'take', 'initial', 'rest', 'tail', 'last', 'without', 'indexOf', 'shuffle',
+    'lastIndexOf', 'isEmpty', 'groupBy'];
 
   // Mix in each Underscore method as a proxy to `Collection#models`.
   _.each(methods, function(method) {
@@ -1201,9 +1205,19 @@
       return this;
     },
 
+    // Clean up references to this view in order to prevent latent effects and
+    // memory leaks.
+    dispose: function() {
+      this.undelegateEvents();
+      if (this.model) this.model.off(null, null, this);
+      if (this.collection) this.collection.off(null, null, this);
+      return this;
+    },
+
     // Remove this view from the DOM. Note that the view isn't present in the
     // DOM by default, so calling this method may be a no-op.
     remove: function() {
+      this.dispose();
       this.$el.remove();
       return this;
     },
@@ -1300,14 +1314,6 @@
 
   });
 
-  // The self-propagating extend function that Backbone classes use.
-  var extend = function(protoProps, classProps) {
-    return inherits(this, protoProps, classProps);
-  };
-
-  // Set up inheritance for the model, collection, and view.
-  Model.extend = Collection.extend = Router.extend = View.extend = extend;
-
   // Backbone.sync
   // -------------
 
@@ -1345,7 +1351,7 @@
 
     // token used on authentication
     var token = sessionStorage.getItem('token');
-
+    
     // Ensure that we have a URL.
     if (!options.url) {
       params.url = getValue(model, 'url') || urlError();
@@ -1357,16 +1363,16 @@
       params.data = JSON.stringify({model: model});
     }
 
-    // For older servers, emulate JSON by encoding the request into an HTML-form.
-    if (Backbone.emulateJSON) {
-      params.contentType = 'application/x-www-form-urlencoded';
-      params.data = params.data ? {model: params.data} : {};
-    }
-
     if (token) {
       params.beforeSend = function(xhr) {
         xhr.setRequestHeader('Authorization', token);
       }
+    }
+
+    // For older servers, emulate JSON by encoding the request into an HTML-form.
+    if (Backbone.emulateJSON) {
+      params.contentType = 'application/x-www-form-urlencoded';
+      params.data = params.data ? {model: params.data} : {};
     }
 
     // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
@@ -1417,7 +1423,8 @@
   // Helper function to correctly set up the prototype chain, for subclasses.
   // Similar to `goog.inherits`, but uses a hash of prototype properties and
   // class properties to be extended.
-  var inherits = function(parent, protoProps, staticProps) {
+  var extend = function(protoProps, staticProps) {
+    var parent = this;
     var child;
 
     // The constructor function for the new subclass is either defined by you
@@ -1452,6 +1459,9 @@
 
     return child;
   };
+
+  // Set up inheritance for the model, collection, and view.
+  Model.extend = Collection.extend = Router.extend = View.extend = extend;
 
   // Helper function to get a value from a Backbone object as a property
   // or as a function.
